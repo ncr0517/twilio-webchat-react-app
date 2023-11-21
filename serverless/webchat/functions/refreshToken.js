@@ -35,6 +35,10 @@ exports.handler = function(context, event, callback) {
         // Add other Express response methods as needed
     };
 
+    response.appendHeader('Access-Control-Allow-Origin', '*');
+    response.appendHeader('Access-Control-Allow-Methods', 'POST');
+    response.appendHeader('Access-Control-Allow-Headers', 'Content-Type');
+
     // Call your controller with appropriate parameters
     // Note: You'll need to adapt parameters as Twilio functions have a different signature than Express handlers
     refreshTokenController(req, res).then((result) =>

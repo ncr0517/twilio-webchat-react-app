@@ -43,7 +43,7 @@ exports.handler = async function(context, event, callback) {
     // Set the CORS headers to allow Flex to make an error-free HTTP request
     // to this Function
     response.appendHeader('Access-Control-Allow-Origin', '*');
-    response.appendHeader('Access-Control-Allow-Methods', 'OPTIONS, POST, GET');
+    response.appendHeader('Access-Control-Allow-Methods', 'POST');
     response.appendHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     // Call your controller with appropriate parameters
@@ -66,8 +66,4 @@ exports.handler = async function(context, event, callback) {
         return callback(null, response);
 
     });
-    // response = await initWebchatController(req, res);
-    // console.log("received response");
-    // console.log(response);
-    // return callback(null, response);
 };
