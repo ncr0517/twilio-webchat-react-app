@@ -20,7 +20,15 @@ export async function contactBackend<T>(endpointRoute: string, body: Record<stri
         throw new Error("Request to backend failed");
     }
 
-    return response.json();
+    const responseData = await response.json();
+
+    // Check if responseData has 'body' and then parse it as JSON
+    if (responseData.body) {
+        return JSON.parse(responseData.body); // Second level of JSON parsing for the 'body' field
+        //return parsedBody as T; // Ensure that parsedBody is of type T
+    }
+
+    throw new Error("Invalid response format");
 }
 
 function storeSessionData(data: Token) {
@@ -109,7 +117,7 @@ export const sessionDataHandler = {
         try {
             newTokenData = await contactBackend<Token>("/initWebchat", { formData });
         } catch (e) {
-            throw Error("No results from server");
+            throw Error(`Message NITHIN ${e}`);
         }
 
         log.debug("sessionDataHandler: new session successfully created");
