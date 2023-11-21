@@ -28,6 +28,7 @@ export function initSession({ token, conversationSid }: { token: string; convers
         let messages;
 
         try {
+            log.debug(`token:${token}`);
             conversationsClient = await Client.create(token);
             try {
                 conversation = await conversationsClient.getConversationBySid(conversationSid);
