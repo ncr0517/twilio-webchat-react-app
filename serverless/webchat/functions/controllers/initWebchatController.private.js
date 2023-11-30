@@ -106,14 +106,12 @@ const initWebchatController = async (request, response) => {
         ({ identity, conversationSid } = result);
         console.log(`conversationSid ${conversationSid}`);
     } catch (error) {
-
+        logInterimAction(`Couldn't initiate WebChat: ${error?.message}`);
         return new Twilio.Response({
             statusCode: 500,
             body: JSON.stringify(`Couldn't initiate WebChat: ${error?.message}`),
             headers: { 'Content-Type': 'application/json' }
         });
-        //return;
-        //return response.status(500).send(`Couldn't initiate WebChat: ${error?.message}`);
     }
 
     // Generate token for customer
