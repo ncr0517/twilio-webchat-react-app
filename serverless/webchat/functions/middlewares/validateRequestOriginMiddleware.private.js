@@ -23,7 +23,6 @@ const validateRequestOriginMiddleware = (request, response, next) => {
     } else {
         response.appendHeader('Access-Control-Allow-Origin', requestOrigin);
     }
-    //response.appendHeader('Access-Control-Allow-Origin', '*');
     response.appendHeader("Access-Control-Allow-Methods", "OPTIONS, POST");
     response.appendHeader("Access-Control-Allow-Headers", "Content-Type");
 
