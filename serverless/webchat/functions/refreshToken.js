@@ -4,6 +4,14 @@ exports.handler = function(context, event, callback) {
     // Import your controller
     const { refreshTokenController } = require('./controllers/refreshTokenController');
 
+    const { validateRequestOriginMiddleware } = require(Runtime.getFunctions()[
+        "middlewares/validateRequestOriginMiddleware"
+    ].path);
+
+    const { logInterimAction } = require(Runtime.getFunctions()[
+        "helpers/logs"
+      ].path);
+
     console.log(event);
 
     // Create a mock request object
@@ -14,48 +22,33 @@ exports.handler = function(context, event, callback) {
         // Add other Express request properties as needed
     };
 
-    // Create a mock response object
-    const res = {
-        status: (statusCode) => ({
-            send: (body) => callback(null, {
-                statusCode,
-                body: JSON.stringify(body),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }),
-            json: (body) => callback(null, {
-                statusCode,
-                body: JSON.stringify(body),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+    const response = new Twilio.Response();
+
+    validateRequestOriginMiddleware(req, response, (err) => {
+        if (err) {
+            logInterimAction(response);
+            return callback(null, response);
+        } else {
+            refreshTokenController(req, response).then((result) =>
+            {   
+                response.setStatusCode(200);
+                response.appendHeader('Content-Type', 'application/json');
+                response.setBody(result);
+                console.log(response);
+                return callback(null, response);
+
             })
-        }),
-        // Add other Express response methods as needed
-    };
+            .catch((err) => {
+                response.appendHeader('Content-Type', 'plain/text');
+                response.setBody(err.message);
+                response.setStatusCode(500);
+                // If there's an error, send an error response.
+                // Keep using the response object for CORS purposes.
+                return callback(null, response);
 
-    response.appendHeader('Access-Control-Allow-Origin', '*');
-    response.appendHeader('Access-Control-Allow-Methods', 'POST');
-    response.appendHeader('Access-Control-Allow-Headers', 'Content-Type');
+            });
 
-    // Call your controller with appropriate parameters
-    // Note: You'll need to adapt parameters as Twilio functions have a different signature than Express handlers
-    refreshTokenController(req, res).then((result) =>
-    {   
-        response.appendHeader('Content-Type', 'application/json');
-        response.setBody(result);
-        console.log(response);
-        return callback(null, response);
-
-    })
-    .catch((err) => {
-        response.appendHeader('Content-Type', 'plain/text');
-        response.setBody(err.message);
-        response.setStatusCode(500);
-        // If there's an error, send an error response.
-        // Keep using the response object for CORS purposes.
-        return callback(null, response);
-
+        }
     });
+    
 };
