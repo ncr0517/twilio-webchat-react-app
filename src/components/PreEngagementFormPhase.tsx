@@ -84,7 +84,7 @@ export const PreEngagementFormPhase = () => {
                 <Box {...fieldStyles}>
                     <Label htmlFor="query">How can we help you?</Label>
                     <TextArea
-                        placeholder="Ask a question"
+                        placeholder="Say RESCHEDULE, APPOINTMENT, BILLING, or SUPPORT for routing."
                         name="query"
                         data-test="pre-engagement-chat-form-query-textarea"
                         value={query}
