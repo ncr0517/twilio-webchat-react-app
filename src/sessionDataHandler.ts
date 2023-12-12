@@ -117,7 +117,7 @@ export const sessionDataHandler = {
         try {
             newTokenData = await contactBackend<Token>("/initWebchat", { formData });
         } catch (e) {
-            throw Error(`Message NITHIN ${e}`);
+            throw Error(`Contact Support, Error ${e}`);
         }
 
         log.debug("sessionDataHandler: new session successfully created");

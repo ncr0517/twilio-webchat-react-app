@@ -1,7 +1,13 @@
 const jwt = require("jsonwebtoken");
-const { TOKEN_TTL_IN_SECONDS } = require("../constants");
-const { createToken } = require("../helpers/createToken");
-const { logInitialAction, logFinalAction, logInterimAction } = require("../helpers/logs");
+const { TOKEN_TTL_IN_SECONDS } = require(Runtime.getFunctions()[
+    "constants"
+  ].path);
+const { createToken } = require(Runtime.getFunctions()[
+    "helpers/createToken"
+  ].path);
+  const { logFinalAction, logInitialAction, logInterimAction } = require(Runtime.getFunctions()[
+    "helpers/logs"
+  ].path);
 
 const refreshTokenController = async (request, response) => {
     logInitialAction("Refreshing token");
