@@ -14,7 +14,7 @@ export const innerContainerStyles: BoxStyleProps = {
     display: "flex",
     flexDirection: "column",
     width: "320px",
-    height: "590px",
+    height: "400px",
     marginBottom: "space50",
     borderRadius: "borderRadius30",
     backgroundColor: "colorBackgroundBody"

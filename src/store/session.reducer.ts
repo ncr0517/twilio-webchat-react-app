@@ -11,7 +11,7 @@ import {
 
 const initialState: SessionState = {
     currentPhase: EngagementPhase.Loading,
-    expanded: false,
+    expanded: true,
     preEngagementData: { name: "", query: "", email: "" }
 };
 
